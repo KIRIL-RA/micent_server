@@ -5,7 +5,49 @@ const client = new MongoClient(uri);
 const database = client.db("clusters");
 const device = database.collection("one");
 
-async function update_control(device_number, condition, ventilation, light1, pump){
+async function update_sensor(device_number, humidity, temperature, time){
+    try {
+        await client.connect();
+
+        const query = { device: device_number };
+        const options = {
+            upsert:false
+        };
+
+        const replacement = {
+            Humidity: humidity,
+            Temperature: temperature,
+            Time: time
+        };
+
+        await device.updateOne(query,{ $set: replacement}, options);
+
+    } finally {
+        await client.close();
+    }
+}
+
+async function update_auto(device_number, auto){
+    try {
+        await client.connect();
+
+        const query = { device: device_number };
+        const options = {
+            upsert:false
+        };
+
+        const replacement = {
+            Auto: auto
+        };
+
+        await device.updateOne(query,{ $set: replacement}, options);
+
+    } finally {
+        await client.close();
+    }
+}
+
+async function update_control(device_number, condition, ventilation, light1, pump, auto){
     try {
         await client.connect();
 
@@ -18,7 +60,8 @@ async function update_control(device_number, condition, ventilation, light1, pum
             Condition: condition,
             Ventilation: ventilation,
             Light1: light1,
-            Pump: pump
+            Pump: pump,
+            Auto: auto
         };
 
         await device.updateOne(query,{ $set: replacement}, options);
@@ -48,7 +91,7 @@ async function update_db(device_number, condition, ventilation, light1, humidity
             Time: time
         };
 
-        await device.replaceOne(query, replacement, options);
+        await device.updateOne(query,{ $set: replacement}, options);
 
     } finally {
         await client.close();
@@ -71,5 +114,7 @@ async function get(device_number) {
 }
 
 module.exports.update_control = update_control;
+module.exports.update_sensor = update_sensor;
+module.exports.update_auto = update_auto;
 module.exports.update_db = update_db;
 module.exports.get = get;

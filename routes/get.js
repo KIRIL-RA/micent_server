@@ -1,14 +1,26 @@
 var express = require('express');
 var router = express.Router();
 
-const { get, update_db, update_control } = require('../logic/db_work');
+const { get, update_db, update_control, update_auto, update_sensor } = require('../logic/db_work');
 
 router.get('/', async (req, res, next) => {
-    if (req.query.getdata == undefined) {
-       
-       if(req.query.update_contol == 'True') await update_control(1, Boolean(+req.query.condition), Boolean(+req.query.ventilation), Boolean(+req.query.light1), Boolean(+req.query.pump));
-       if(req.query.update_all == 'True') await update_db(1, Boolean(+req.query.condition), Boolean(+req.query.ventilation), Boolean(+req.query.light1), parseInt(req.query.humidity, 10), parseInt(req.query.temperature, 10), Boolean(+req.query.pump), req.query.time);
+    var Query = req.query;
+    console.log(Query);
+    switch(Query.update){
+        case 'sensors':
+            await update_sensor(1, parseInt(Query.humidity, 10), parseInt(Query.temperature, 10), Query.time)
+            break;
+        case 'control':
+            await update_control(1, Boolean(+Query.condition), Boolean(+Query.ventilation), Boolean(+Query.light1), Boolean(+Query.pump), Boolean(+Query.auto));
+            break;
+        case 'all':
+            await update_db(1, Boolean(+Query.condition), Boolean(+Query.ventilation), Boolean(+Query.light1), parseInt(Query.humidity, 10), parseInt(Query.temperature, 10), Boolean(+Query.pump), Query.time);
+            break;
+        case 'auto':
+            await update_auto(1, Boolean(+Query.auto));
+            break;
     }
+
     let data = await get(1);
     
     res.send(`{"light1":"${+data.Light1}",
@@ -17,6 +29,7 @@ router.get('/', async (req, res, next) => {
         "humidity":"${data.Humidity}",
         "temperature":"${data.Temperature}",
         "pump":"${+data.Pump}",
+        "auto":"${+data.Auto}",
         "time":"${data.Time}"}`);
 });
 

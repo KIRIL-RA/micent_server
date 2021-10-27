@@ -5,9 +5,9 @@ var humidity_block = document.getElementsByClassName('HUMIDITY_BLOCK')[0];
 var temperature_block = document.getElementsByClassName('TEMPERATURE_BLOCK')[0];
 var state_controllers = control_block.children;
 
-var states = { light1: false, condition: false, ventilation: false, pump: false };
+var states = { light1: false, condition: false, ventilation: false, pump: false, auto: false };
 
-fetch('/get?getdata=true').then(response => response.json())
+fetch('/get').then(response => response.json())
     .then(res => {
         // First fetch
 
@@ -24,12 +24,22 @@ fetch('/get?getdata=true').then(response => response.json())
         states.condition = Boolean(+res.condition);
         states.ventilation = Boolean(+res.ventilation);
         states.pump = Boolean(+res.pump);
+        states.auto = Boolean(+res.auto);
 
         // Initialize click handlers
-        state_controllers[0].onclick = light_click;
-        state_controllers[1].onclick = condition_click;
-        state_controllers[2].onclick = ventilation_click;
-        state_controllers[3].onclick = pump_click;
+        if(states.auto == false){
+            state_controllers[0].onclick = light_click;
+            state_controllers[1].onclick = condition_click;
+            state_controllers[2].onclick = ventilation_click;
+            state_controllers[3].onclick = pump_click;
+        }
+        else{
+            state_controllers[0].onclick = auto_mode_click_other;
+            state_controllers[1].onclick = auto_mode_click_other;
+            state_controllers[2].onclick = auto_mode_click_other;
+            state_controllers[3].onclick = auto_mode_click_other;
+        }
+        state_controllers[4].onclick = auto_click;
 
         update_state_controllers();
         setInterval(get_data, 5000);
@@ -77,11 +87,37 @@ function update_state_controllers() {
         state_controllers[3].className = "CONTROLLER_BLOCK_OFF";
         state_controllers[3].getElementsByClassName('CONTROL_BLOCK_STATE')[0].textContent = "Выкл";
     }
+
+    // Auto block
+    if (states.auto) {
+        state_controllers[4].className = "CONTROLLER_BLOCK_ON";
+        state_controllers[4].getElementsByClassName('CONTROL_BLOCK_STATE')[0].textContent = "Вкл";
+    }
+    else {
+        state_controllers[4].className = "CONTROLLER_BLOCK_OFF";
+        state_controllers[4].getElementsByClassName('CONTROL_BLOCK_STATE')[0].textContent = "Выкл";
+    }
+
+    if(states.auto == false){
+        state_controllers[0].onclick = light_click;
+        state_controllers[1].onclick = condition_click;
+        state_controllers[2].onclick = ventilation_click;
+        state_controllers[3].onclick = pump_click;
+    }
+    else{
+        state_controllers[0].onclick = auto_mode_click_other;
+        state_controllers[1].onclick = auto_mode_click_other;
+        state_controllers[2].onclick = auto_mode_click_other;
+        state_controllers[3].onclick = auto_mode_click_other;
+    }
 }
 
 async function get_data() {
     // Send data and get data
-    let response = await fetch(`/get?update_contol=True&ventilation=${+states.ventilation}&condition=${+states.condition}&light1=${+states.light1}&pump=${+states.pump}`);
+    var req;
+    if(states.auto == false) req = `/get?update=control&ventilation=${+states.ventilation}&condition=${+states.condition}&light1=${+states.light1}&pump=${+states.pump}&auto=${+states.auto}`;
+    else req = `/get?update=auto&auto=1`;
+    let response = await fetch(req);
     let res = await response.json();
     
     console.log(res);
@@ -92,6 +128,7 @@ async function get_data() {
     states.condition = Boolean(+res.condition);
     states.ventilation = Boolean(+res.ventilation);
     states.pump = Boolean(+res.pump);
+    states.auto = Boolean(+res.auto);
 
     update_state_controllers();
 }
@@ -114,5 +151,15 @@ function ventilation_click(){
 
 function pump_click(){
     states.pump = !states.pump;
+    update_state_controllers();
+}
+
+function auto_mode_click_other(){
+    // Handler for button clicks, if auto mode
+    alert("Для использования необходимо отключить Авто режим!");
+}
+
+function auto_click(){
+    states.auto = !states.auto;
     update_state_controllers();
 }

@@ -1,0 +1,75 @@
+const { MongoClient } = require("mongodb");
+
+const uri = "mongodb+srv://micent_control_panel:9QdtAW2TXmmoPYH0@devices-data.oyenf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const client = new MongoClient(uri);
+const database = client.db("clusters");
+const device = database.collection("one");
+
+async function update_control(device_number, condition, ventilation, light1, pump){
+    try {
+        await client.connect();
+
+        const query = { device: device_number };
+        const options = {
+            upsert:false
+        };
+
+        const replacement = {
+            Condition: condition,
+            Ventilation: ventilation,
+            Light1: light1,
+            Pump: pump
+        };
+
+        await device.updateOne(query,{ $set: replacement}, options);
+
+    } finally {
+        await client.close();
+    }
+}
+
+async function update_db(device_number, condition, ventilation, light1, humidity, temperature, pump, time) {
+    try {
+        await client.connect();
+
+        const query = { device: device_number };
+        const options = {
+            upsert: true,
+        };
+
+        const replacement = {
+            device: device_number,
+            Condition: condition,
+            Ventilation: ventilation,
+            Light1: light1,
+            Humidity: humidity,
+            Temperature: temperature,
+            Pump: pump,
+            Time: time
+        };
+
+        await device.replaceOne(query, replacement, options);
+
+    } finally {
+        await client.close();
+    }
+}
+
+async function get(device_number) {
+    var findResult;
+    try {
+        await client.connect();
+
+        findResult = await device.findOne({
+            device: device_number,
+        });
+    }
+    finally {
+        await client.close();
+        return findResult;
+    }
+}
+
+module.exports.update_control = update_control;
+module.exports.update_db = update_db;
+module.exports.get = get;

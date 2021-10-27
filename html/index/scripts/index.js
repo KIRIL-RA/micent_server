@@ -5,7 +5,7 @@ var humidity_block = document.getElementsByClassName('HUMIDITY_BLOCK')[0];
 var temperature_block = document.getElementsByClassName('TEMPERATURE_BLOCK')[0];
 var state_controllers = control_block.children;
 
-var states = { light1: false, condition: false, ventilation: false, pump: false, auto: false };
+var states = { light1: false, cooling: false, ventilation: false, pump: false, auto: false };
 
 fetch('/get').then(response => response.json())
     .then(res => {
@@ -21,7 +21,7 @@ fetch('/get').then(response => response.json())
 
         // Writing states, recived from server
         states.light1 = Boolean(+res.light1);
-        states.condition = Boolean(+res.condition);
+        states.cooling = Boolean(+res.cooling);
         states.ventilation = Boolean(+res.ventilation);
         states.pump = Boolean(+res.pump);
         states.auto = Boolean(+res.auto);
@@ -29,7 +29,7 @@ fetch('/get').then(response => response.json())
         // Initialize click handlers
         if(states.auto == false){
             state_controllers[0].onclick = light_click;
-            state_controllers[1].onclick = condition_click;
+            state_controllers[1].onclick = cooling_click;
             state_controllers[2].onclick = ventilation_click;
             state_controllers[3].onclick = pump_click;
         }
@@ -58,8 +58,8 @@ function update_state_controllers() {
         state_controllers[0].getElementsByClassName('CONTROL_BLOCK_STATE')[0].textContent = "Выкл";
     }
 
-    // Condition block
-    if (states.condition) {
+    // cooling block
+    if (states.cooling) {
         state_controllers[1].className = "CONTROLLER_BLOCK_ON";
         state_controllers[1].getElementsByClassName('CONTROL_BLOCK_STATE')[0].textContent = "Вкл";
     }
@@ -100,7 +100,7 @@ function update_state_controllers() {
 
     if(states.auto == false){
         state_controllers[0].onclick = light_click;
-        state_controllers[1].onclick = condition_click;
+        state_controllers[1].onclick = cooling_click;
         state_controllers[2].onclick = ventilation_click;
         state_controllers[3].onclick = pump_click;
     }
@@ -115,7 +115,7 @@ function update_state_controllers() {
 async function get_data() {
     // Send data and get data
     var req;
-    if(states.auto == false) req = `/get?update=control&ventilation=${+states.ventilation}&condition=${+states.condition}&light1=${+states.light1}&pump=${+states.pump}&auto=${+states.auto}`;
+    if(states.auto == false) req = `/get?update=control&ventilation=${+states.ventilation}&cooling=${+states.cooling}&light1=${+states.light1}&pump=${+states.pump}&auto=${+states.auto}`;
     else req = `/get?update=auto&auto=1`;
     let response = await fetch(req);
     let res = await response.json();
@@ -125,7 +125,7 @@ async function get_data() {
     humidity_block.getElementsByClassName('TH_INFO_TEXT')[0].textContent = res.humidity + '%';
 
     states.light1 = Boolean(+res.light1);
-    states.condition = Boolean(+res.condition);
+    states.cooling = Boolean(+res.cooling);
     states.ventilation = Boolean(+res.ventilation);
     states.pump = Boolean(+res.pump);
     states.auto = Boolean(+res.auto);
@@ -139,8 +139,8 @@ function light_click() {
     update_state_controllers();
 }
 
-function condition_click(){
-    states.condition = !states.condition;
+function cooling_click(){
+    states.cooling = !states.cooling;
     update_state_controllers();
 }
 

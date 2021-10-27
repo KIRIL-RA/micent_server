@@ -47,7 +47,7 @@ async function update_auto(device_number, auto){
     }
 }
 
-async function update_control(device_number, condition, ventilation, light1, pump, auto){
+async function update_control(device_number, cooling, ventilation, light1, pump, auto){
     try {
         await client.connect();
 
@@ -57,7 +57,7 @@ async function update_control(device_number, condition, ventilation, light1, pum
         };
 
         const replacement = {
-            Condition: condition,
+            Cooling: cooling,
             Ventilation: ventilation,
             Light1: light1,
             Pump: pump,
@@ -71,7 +71,7 @@ async function update_control(device_number, condition, ventilation, light1, pum
     }
 }
 
-async function update_db(device_number, condition, ventilation, light1, humidity, temperature, pump, time) {
+async function update_db(device_number, cooling, ventilation, light1, humidity, temperature, pump, time) {
     try {
         await client.connect();
 
@@ -82,7 +82,7 @@ async function update_db(device_number, condition, ventilation, light1, humidity
 
         const replacement = {
             device: device_number,
-            Condition: condition,
+            Cooling: cooling,
             Ventilation: ventilation,
             Light1: light1,
             Humidity: humidity,

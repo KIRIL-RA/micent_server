@@ -20,7 +20,7 @@ body{
     margin-left: 20px;
 }
 
-.TEMPERATURE_BLOCK, .HUMIDITY_BLOCK{
+.TEMPERATURE_BLOCK, .HUMIDITY_BLOCK, .WATER_LEVEL_BLOCK{
     margin-bottom: 50px;
 }
 

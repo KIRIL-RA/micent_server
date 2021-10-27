@@ -5,7 +5,7 @@ const client = new MongoClient(uri);
 const database = client.db("clusters");
 const device = database.collection("one");
 
-async function update_sensor(device_number, humidity, temperature, time){
+async function update_sensor(device_number, humidity, temperature, water_level, time){
     try {
         await client.connect();
 
@@ -16,6 +16,7 @@ async function update_sensor(device_number, humidity, temperature, time){
 
         const replacement = {
             Humidity: humidity,
+            Water_level: water_level,
             Temperature: temperature,
             Time: time
         };
@@ -71,7 +72,7 @@ async function update_control(device_number, cooling, ventilation, light1, pump,
     }
 }
 
-async function update_db(device_number, cooling, ventilation, light1, humidity, temperature, pump, time) {
+async function update_db(device_number, cooling, ventilation, light1, humidity, temperature, water_level, pump, time) {
     try {
         await client.connect();
 
@@ -87,6 +88,7 @@ async function update_db(device_number, cooling, ventilation, light1, humidity, 
             Light1: light1,
             Humidity: humidity,
             Temperature: temperature,
+            Water_level: water_level,
             Pump: pump,
             Time: time
         };

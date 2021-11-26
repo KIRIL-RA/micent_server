@@ -27,7 +27,7 @@ function subscribe_getted_data_update(req, res, clients, devices) {
         }
         if (parameters.Auto === undefined) res.status(400).send("Auto undefined!");
         else {
-            if (parameters.Auto == 0) res.status(400).send("Can't change parameters, please disable auto mode!");
+            if (parameters.Auto == 1) res.status(400).send("Can't change parameters, please disable auto mode!");
             else {
                 send_data_to_device(getId, parameters, devices);
                 // Send response to client, that we geted new data

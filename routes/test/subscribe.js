@@ -18,6 +18,7 @@ router.get('/subscribe_send_control', async (req, res, next) => {
 });
 
 router.get('/subscribe_device', async (req, res, next) => {
+  console.log("device_connected");
   subscribe_device(req, res, devices);
 });
 

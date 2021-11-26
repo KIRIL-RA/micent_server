@@ -13,17 +13,17 @@ router.get('/subscribe_state_page', async (req, res, next) => {
 });
 
 router.get('/subscribe_send_control', async (req, res, next) => {
-  subscribe_getted_data_update(req, res, users);
+  subscribe_getted_data_update(req, res, users, devices);
   //subscribe_type_analizer(req, res);
 });
 
 router.get('/subscribe_device', async (req, res, next) => {
-  subscribe_device(req, res, users);
+  subscribe_device(req, res, devices);
 });
 
 
 router.get('/send_data_from_device', async (req, res, next) => {
-  send_data_from_device(req, res, users);
+  send_data_from_device(req, res, users, devices);
 });
 
 router.get('/get', async (req, res, next) => {

@@ -1,52 +1,55 @@
+const e = require('express');
 var express = require('express');
 require('../../logic/db_work');
+const { send_data_to_device } = require('./send_data');
 
-function send_data_control_page(id, parameters, clients) {
-    // NOT THE MOST OPTIMIZED FUNCTION, IT WOULD BE GOOD TO DO IT IN THE FUTURE :)
+function subscribe_getted_data_update(req, res, clients, devices) {
+    /*
+     * Function for get data from control page, and send recieved data to device 
+     */
 
-    for (var user in clients) {
-        console.log("отсылаю сообщение " + user);
-        var res = clients[user].res;
-        res.setHeader('Content-Type', 'text/plain;charset=utf-8');
-        res.setHeader("Cache-Control", "no-cache, must-revalidate");
-        res.end(message);
-        delete clients[user];
-    }
-}
-
-function subscribe_getted_data_update(req, res, clients) {
+    var Query = req.query; // Getted parameters
     var id = req.socket.remoteAddress; // Client id
-    var getId = req.query.id; // Users id
+    var getId = Query.id; // Users id
 
     if (getId === undefined) {
         // Check user identificator
-        res.status(401);
-        res.send("Id undefined!");
+        res.status(401).send("Id undefined!");
     }
 
     else {
+        var parameters = { Light1: Query.light1, Ventilation: Query.ventilation, Cooling: Query.cooling, Pump: Query.pump, Auto: Query.auto };
+
         // Send response to previous client request, that there is no new data
         if (clients[id] != undefined) {
-            clients[id].res.status(204).send("No data to update");
+            clients[id].res.status(204).send(`{"error":"No data to update"}`);
             delete clients[id]
         }
-
-        // Send response to client, that we geted new data
-        res.setHeader('Content-Type', 'text/plain;charset=utf-8');
-        res.setHeader("Cache-Control", "no-cache, must-revalidate");
-        res.end("Data getted succesful");
+        if (parameters.Auto === undefined) res.status(400).send("Auto undefined!");
+        else {
+            if (parameters.Auto == 0) res.status(400).send("Can't change parameters, please disable auto mode!");
+            else {
+                send_data_to_device(getId, parameters, devices);
+                // Send response to client, that we geted new data
+                res.setHeader('Content-Type', 'text/plain;charset=utf-8');
+                res.setHeader("Cache-Control", "no-cache, must-revalidate");
+                res.end("Data getted succesful");
+            }
+        }
     }
 }
 
 function subscribe_state_update(req, res, clients) {
+    /*
+     *Function adding a new customer to the customer list
+     */
 
     var id = req.socket.remoteAddress; // Client id
     var getId = req.query.id; // User id
 
     if (getId === undefined) {
         // Check user identificator
-        res.status(401);
-        res.send("Id undefined!");
+        res.status(401).send("Id undefined!");
     }
 
     // Adding client to subscribe list
@@ -69,7 +72,6 @@ async function subscribe_type_analizer(req, res, clients) {
     }
 }
 
-module.exports.send_data_control_page = send_data_control_page;
 module.exports.subscribe_state_update = subscribe_state_update;
 module.exports.subscribe_type_analizer = subscribe_type_analizer;
 module.exports.subscribe_getted_data_update = subscribe_getted_data_update;

@@ -1,23 +1,34 @@
 var express = require('express');
-const { send_data_control_page } = require('../../logic/test/control_page_logic');
+const { get } = require('../db_work');
+const { send_data_control_page } = require('./send_data');
 
-function subscribe_device(req, res, users) {
-    //send_data_control_page(req, res, "data", users);
+function subscribe_device(req, res, devices) {
+    var Query = req.query;
+    var getId = Query.id; // Users id
+
+    if (getId === undefined) res.status(401).send("Id undefined!");
+    else devices[getId] ={ res };
+
+    req.on('close', () => delete devices[getId]);
 }
 
-function send_data_from_device(req, res, users) {
+function send_data_from_device(req, res, users, devices) {
     var Query = req.query;
     var getId = Query.id; // Users id
 
     if (getId === undefined) {
         // Check user identificator
-        res.status(401);
-        res.send("Id undefined!");
+        res.status(401).send("Id undefined!");
     }
 
     else {
+        if (devices[getId] != undefined) {
+            devices[getId].res.status(204).send(`{"error":"No data to update"}`);
+            delete devices[getId];
+        }
+
         var haveUndefinedParametr = false;
-        var parameters = { Temperature: Query.temperature, Humidity: Query.humidity, Light1: Query.light1, Ventilation: Query.ventilation, Cooling: Query.cooling };
+        var parameters = { Temperature: Query.temperature, Humidity: Query.humidity, Light1: Query.light1, Ventilation: Query.ventilation, Cooling: Query.cooling, Pump: Query.pump, Auto: Query.auto };
         for (var parameter_ in parameters) if (parameters[parameter_] === undefined) haveUndefinedParametr = true;
     
 

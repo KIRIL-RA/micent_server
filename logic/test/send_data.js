@@ -2,9 +2,7 @@ function send_data_to_device(id, parameters, devices){
     var device = devices[id];
     if(device != undefined){
         var res = device.res;
-        res.setHeader('Content-Type', 'text/plain;charset=utf-8');
-        res.setHeader("Cache-Control", "no-cache, must-revalidate");
-        res.end(`
+        res.send(`
         {"light1":"${parameters.Light1}",
         "cooling":"${parameters.Cooling}",
         "ventilation":"${parameters.Ventilation}",
@@ -23,9 +21,7 @@ function send_data_control_page(id, parameters, clients) {
     for (var user in clients) {
         console.log("отсылаю сообщение " + user);
         var res = clients[user].res;
-        res.setHeader('Content-Type', 'text/plain;charset=utf-8');
-        res.setHeader("Cache-Control", "no-cache, must-revalidate");
-        res.end(`
+        res.send(`
         {"light1":"${parameters.Light1}",
         "cooling":"${parameters.Cooling}",
         "ventilation":"${parameters.Ventilation}",

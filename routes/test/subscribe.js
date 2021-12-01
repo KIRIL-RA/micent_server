@@ -8,7 +8,7 @@ var users = {};
 var devices = {};
 
 router.get('/subscribe_state_page', async (req, res, next) => {
-  subscribe_state_update(req, res, users);
+  subscribe_state_update(req, res, users, devices);
   //subscribe_type_analizer(req, res);
 });
 

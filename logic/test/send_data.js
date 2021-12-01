@@ -1,4 +1,8 @@
 function send_data_to_device(id, parameters, devices){
+    /*
+     * Function for send data to device from control page or other sources    
+     */
+    
     var device = devices[id];
     if(device != undefined){
         var res = device.res;

@@ -39,21 +39,31 @@ function subscribe_getted_data_update(req, res, clients, devices) {
     }
 }
 
-function subscribe_state_update(req, res, clients) {
+function subscribe_state_update(req, res, clients, devices) {
     /*
-     *Function adding a new customer to the customer list
+     * Function adding a new customer to the customer list
      */
 
     var id = req.socket.remoteAddress; // Client id
-    var getId = req.query.id; // User id
+    var Query = req.query;
+    var getId = Query.id; // User id
 
     if (getId === undefined) {
         // Check user identificator
         res.status(401).send("Id undefined!");
     }
 
-    // Adding client to subscribe list
-    else clients[id] = { res, getId };
+    else{
+        clients[id] = { res, getId };// Adding client to subscribe list
+        if(Query.get_data == '1'){ 
+            // If we only need parameters from device, make request to device
+            if(devices[getId]!=undefined)devices[getId].res.send('{"data_request":"true"}');
+            else{
+                res.status(404).send('{"device_status":"offline"}');
+                delete clients[id]
+            }
+        }
+        }
 
     // If client disconnected, then delete him
     req.on('close', () => delete clients[id]);

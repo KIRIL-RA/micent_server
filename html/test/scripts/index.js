@@ -7,7 +7,7 @@ var state_controllers = control_block.children;
 
 var states = { light1: false, cooling: false, ventilation: false, pump: false, auto: false };
 
-fetch('/test/get').then(response => response.json())
+fetch('/test/subscribe_state_page?id=111&get_data=1').then(response => response.json())
     .then(res => {
         // First fetch
 

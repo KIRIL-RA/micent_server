@@ -20,20 +20,13 @@ function subscribe_getted_data_update(req, res, clients, devices) {
     else {
         var parameters = { Light1: Query.light1, Ventilation: Query.ventilation, Cooling: Query.cooling, Pump: Query.pump, Auto: Query.auto };
 
-        // Send response to previous client request, that there is no new data
-        if (clients[id] != undefined) {
-            clients[id].res.status(204).send(`{"error":"No data to update"}`);
-            delete clients[id]
-        }
         if (parameters.Auto === undefined) res.status(400).send("Auto undefined!");
         else {
             if (parameters.Auto == 1) res.status(400).send("Can't change parameters, please disable auto mode!");
             else {
                 send_data_to_device(getId, parameters, devices);
                 // Send response to client, that we geted new data
-                res.setHeader('Content-Type', 'text/plain;charset=utf-8');
-                res.setHeader("Cache-Control", "no-cache, must-revalidate");
-                res.end("Data getted succesful");
+                clients[id].res_control = res;
             }
         }
     }

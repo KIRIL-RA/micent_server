@@ -25,6 +25,7 @@ function send_data_control_page(id, parameters, clients) {
     for (var user in clients) {
         console.log("отсылаю сообщение " + user);
         var res = clients[user].res;
+        var res_control = clients[user].res_control;
         res.send(`
         {"light1":"${parameters.Light1}",
         "cooling":"${parameters.Cooling}",
@@ -34,6 +35,7 @@ function send_data_control_page(id, parameters, clients) {
         "pump":"${parameters.Pump}",
         "auto":"${+parameters.Auto}"}`);
 
+        if(res_control != undefined) res_control.send(`{"result":"Data getted successfuly"}`);
         delete clients[user];
     }
 }

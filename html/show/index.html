@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="scripts/index.js"></script>
+    <link rel="stylesheet" href="css/not_loaded.css">
+    <link rel="stylesheet" href="css/control.css">
+    <link rel="stylesheet" href="css/warning.css">
+    <title>Control panel</title>
+</head>
+<body>
+    <div class="PARENT-FOR-NOT-LOADED" id="LOADING-DIV">
+        <div class="NOT-LOADED-INFO-ACTIVE" id="LOADING">
+            <h1 class="NOT-LOADED-LABEL">Connecting</h1>
+            <img id="CONNECTING-TO-SERVER-IMG" src="./images/Internet.png" alt="connecting-to-server">
+        </div>
+        <div class="NOT-LOADED-INFO-DISABLED" id="CONNECTION-FAILED">
+            <h1 class="NOT-LOADED-LABEL">Ooops, device offline</h1>
+        </div>
+    </div>
+    <div class="SHOW-INFO DISABLED" id="SHOW-MAIN-DIV">
+        <div class="SENSORS-STATUS">
+            <a class="SCROLL-MENU-HEADER">Status of sensors</a>
+            <div class="SENSORS-SCROLL-MENU">
+                <div class="SENSOR-DISPLAY">
+                    <div class="SENSOR-DISPLAY-HEADER">
+                        <a class="SENSOR-DISPLAY-NAME">Temperature</a>
+                        <div class="VALUE-STATUS NORMAL-VALUE" id="VALUE-STATUS-TEMPERATURE"></div>
+                    </div>
+                    <a class="SENSOR-DISPLAY-VALUE" id="SHOW-TEMPERATURE">20°C</a>
+                </div>
+                <div class="SENSOR-DISPLAY">
+                    <div class="SENSOR-DISPLAY-HEADER">
+                        <a class="SENSOR-DISPLAY-NAME">Humidity</a>
+                        <div class="VALUE-STATUS NORMAL-VALUE" id="VALUE-STATUS-HUMIDITY"></div>
+                    </div>
+                    <a class="SENSOR-DISPLAY-VALUE" id="SHOW-HUMIDITY">20%</a>
+                </div>
+            </div>
+        </div>
+        <div class="SYSTEMS-CONTROL-STATUS">
+            <a class="SCROLL-MENU-HEADER">Status of controlled systems</a>
+            <div class="SYSTEMS-CONTROL-SCROLL-MENU">
+                <div class="SENSOR-DISPLAY">
+                    <div class="SENSOR-DISPLAY-HEADER">
+                        <a class="SENSOR-DISPLAY-NAME">Light control</a>
+                        <div class="VALUE-STATUS NORMAL-VALUE" id="VALUE-STATUS-LIGHT1"></div>
+                    </div>
+                    <a class="SENSOR-DISPLAY-VALUE" id="SHOW-LIGHT1">On</a>
+                </div>
+                <div class="SENSOR-DISPLAY">
+                    <div class="SENSOR-DISPLAY-HEADER">
+                        <a class="SENSOR-DISPLAY-NAME">Ventilation control</a>
+                        <div class="VALUE-STATUS CRITICAL-OFF-VALUE" id="VALUE-STATUS-VENTILATION"></div>
+                    </div>
+                    <a class="SENSOR-DISPLAY-VALUE" id="SHOW-VENTILATION">Off</a>
+                </div>
+                <div class="SENSOR-DISPLAY">
+                    <div class="SENSOR-DISPLAY-HEADER">
+                        <a class="SENSOR-DISPLAY-NAME">Cooling control</a>
+                        <div class="VALUE-STATUS CRITICAL-OFF-VALUE" id="VALUE-STATUS-COOLING"></div>
+                    </div>
+                    <a class="SENSOR-DISPLAY-VALUE" id="SHOW-COOLING">Off</a>
+                </div>
+                <div class="SENSOR-DISPLAY">
+                    <div class="SENSOR-DISPLAY-HEADER">
+                        <a class="SENSOR-DISPLAY-NAME">Pump control</a>
+                        <div class="VALUE-STATUS NORMAL-VALUE" id="VALUE-STATUS-PUMP"></div>
+                    </div>
+                    <a class="SENSOR-DISPLAY-VALUE" id="SHOW-PUMP">On</a>
+                </div>
+            </div>
+        </div>
+        <div class="LOCK-NOTIFICAION">
+            <img id="LOCK-IMG" src="./images/lock.png" alt="lock">
+        </div>
+    </div>
+</body>
+</html>

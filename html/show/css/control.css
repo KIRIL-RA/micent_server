@@ -1,0 +1,73 @@
+body, html{
+    margin: 0%;
+    padding: 0%;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+}
+
+.NORMAL-VALUE{
+    background-color: green;
+}
+
+.CRITICAL-OFF-VALUE{
+    background-color: red;
+}
+
+.VALUE-STATUS{
+    height: 2px;
+}
+
+.SENSORS-SCROLL-MENU{
+    white-space: nowrap;
+    overflow: auto;
+}
+
+.SYSTEMS-CONTROL-STATUS{
+    margin-top: 20px;}
+
+.SENSORS-STATUS, .SYSTEMS-CONTROL-STATUS{
+    text-align: center;
+    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 25px;
+}
+
+.SCROLL-MENU-HEADER{
+    color: white;
+}
+
+.SENSOR-DISPLAY{
+    display: inline-block;
+    padding-top: 10px;
+    text-align: center;
+    background-color: rgb(70, 70, 70);
+    margin: 10px;
+    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    border-radius: 3px;
+    width: 300px;
+    height: 200px;
+}
+
+.SENSOR-DISPLAY-HEADER,  .SENSOR-DISPLAY-VALUE{
+    display: grid;
+}
+
+.SENSOR-DISPLAY-NAME, .SENSOR-DISPLAY-VALUE{
+    color: white;
+}
+
+.SENSOR-DISPLAY-NAME{
+    font-weight: lighter;
+    font-size: 25px;
+}
+
+.SENSOR-DISPLAY-VALUE{
+    margin-top: 10px;
+    font-size: 100px;
+}
+
+.SYSTEMS-CONTROL-SCROLL-MENU{
+    white-space: nowrap;
+    overflow: auto;
+}
+

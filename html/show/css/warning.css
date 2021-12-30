@@ -1,0 +1,15 @@
+.LOCK-NOTIFICAION{
+    border-radius: 25px;
+    height: 50px;
+    width: 50px;
+    background-color: orange;
+    position:fixed; 
+    z-index: 100; 
+    right:20px;
+    bottom:20px;
+}
+
+#LOCK-IMG{
+    width: 50px;
+    height: 45px;
+}

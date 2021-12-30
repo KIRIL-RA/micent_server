@@ -1,0 +1,58 @@
+body, html{
+    margin: 0%;
+    padding: 0%;
+    height: 100%;
+    width: 100%;
+}
+
+.DISABLED{
+    display: none;
+}
+
+.PARENT-FOR-NOT-LOADED{
+    z-index: 120;
+    background-color: rgb(255, 255, 255);
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.NOT-LOADED-INFO-ACTIVE{
+    visibility: visible;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.NOT-LOADED-INFO-DISABLED{
+    display: none;
+    visibility: hidden;
+}
+
+.NOT-LOADED-LABEL{
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 6vw;
+    font-weight: 900;
+    color: gray;
+}
+
+#CONNECTING-TO-SERVER-IMG{
+    display: block;
+    height: 150px;
+    width: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    animation: infinite alternate CONNECTION-LOGO-ANIMATION 1s;
+}
+
+@keyframes CONNECTION-LOGO-ANIMATION {
+    0%{
+        opacity: 1;
+    }
+
+    100%{
+        opacity: 0.5;
+    }
+}
